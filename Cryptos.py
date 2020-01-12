@@ -30,11 +30,12 @@ def compare(asset):
     #sort dictionary to compare ratings
     askList = sorted(asks.items(), key=operator.itemgetter(1))
     bidList = sorted(bids.items(), key=operator.itemgetter(1))
+
     produce((asset + ' ask price : ' + askList[0][0] + ' (%f) ' %(float(askList[0][1])) + 'is cheaper than ' + askList[1][0] + ' by %f and cheaper than ' %(float(askList[1][1]) - float(askList[0][1])) + askList[2][0] + ' by %f' % (float(askList[2][1]) - float(askList[0][1]))).encode())
     produce((asset + ' bid price : ' + bidList[2][0] + ' (%f) ' %(float(bidList[2][1])) + 'is more expensive than ' + bidList[1][0] + ' by %f and more expensive than ' %(float(bidList[2][1]) - float(bidList[1][1])) + bidList[0][0] + ' by %f' % (float(bidList[2][1]) - float(bidList[0][1]))).encode())
 
     #search arbitrage between asks and bids
-    if all(i[1] <= min(askList[j][1] for j in [0, 1, 2]) for i in bidList) == True:
+    if (float(bidList[2][1]) <= float(askList[0][1])):
         res = asset + ' arbitrage : No arbitrage possible'
         produce(res.encode())
     else: 
